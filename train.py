@@ -94,11 +94,13 @@ if __name__ == "__main__":
     writer = SummaryWriter(args.train_dir)
 
     # KSE
-    models.KSE(model, args.G, args.T)
+    models.KSE(model, args.G, args.T, verbose=True)
+    print('KSE finished')
 
     # network forward init
-    models.forward_init(model)
-
+    a, b = models.forward_init(model)
+    print('{:.2f}% of channels remaining'.format(a/b*100))
+    
     criterion = nn.CrossEntropyLoss()
     optimizer = torch.optim.SGD(filter(lambda i: i.requires_grad, model.parameters()), args.learning_rate,
                                 momentum=args.momentum, weight_decay=args.weight_decay)

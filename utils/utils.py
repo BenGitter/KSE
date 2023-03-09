@@ -235,7 +235,6 @@ class Conv2d_KSE(nn.Module):
 
         else:
             self.channels_indexs.data = torch.LongTensor(all_indexs)
-            print(len(all_indexs))
             self.channel_indexs = []
             for g in range(1, self.G - 1):
                 if self.group_size[g] == 0:
@@ -245,6 +244,8 @@ class Conv2d_KSE(nn.Module):
                     (index.data + self.cluster_num[g] * torch.Tensor(
                         [i for i in range(self.group_size[g])]).view(1, -1)).view(-1).long(),
                     requires_grad=False))
+                
+        return len(all_indexs), self.input_channels
 
     def create_arch(self, G=None, T=None):
         if G is not None:

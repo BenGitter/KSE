@@ -203,7 +203,7 @@ if __name__ == "__main__":
         imgsz=imgsz_test,
         conf_thres=0.001,
         iou_thres=0.65,
-        model=load_model(yolo_struct, nc, hyp.get('anchors'), best, G, T, device),
+        model=load_model(yolo_struct, nc, best, G, T, device),
         dataloader=testloader,
         save_dir=save_dir,
         save_json=True,

@@ -28,9 +28,9 @@ device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 plots = True
 
 # KSE params
-G = 5
-T = 0
-ignore_first_layer = False  # NOTE: This does not do anything, only here to make sure hardcoded stuff in yolo.py::parse_model() is not forgotten
+G = 6
+T = 1
+ignore_first_layer = True  # NOTE: This does not do anything, only here to make sure hardcoded stuff in yolo.py::parse_model() is not forgotten
 
 save_dir = Path('tmp/yolo_kse')
 os.makedirs(save_dir, exist_ok=True)

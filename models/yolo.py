@@ -39,8 +39,8 @@ class Detect(nn.Module):
         a = torch.tensor(anchors).float().view(self.nl, -1, 2)
         self.register_buffer('anchors', a)  # shape(nl,na,2)
         self.register_buffer('anchor_grid', a.clone().view(self.nl, 1, -1, 1, 1, 2))  # shape(nl,1,na,1,1,2)
-        # self.m = nn.ModuleList(nn.Conv2d(x, self.no * self.na, 1) for x in ch)  # output conv
-        self.m = nn.ModuleList(Conv2d_KSE(x, self.no * self.na, 1) for x in ch)  # output conv
+        self.m = nn.ModuleList(nn.Conv2d(x, self.no * self.na, 1) for x in ch)  # output conv
+        # self.m = nn.ModuleList(Conv2d_KSE(x, self.no * self.na, 1) for x in ch)  # output conv
 
     def forward(self, x):
         # x = x.copy()  # for profiling
@@ -773,8 +773,8 @@ def parse_model(d, ch):  # model_dict, input_channels(3)
             # use KSE except for first layer
             if m == Conv:
                 m = Conv_KSE
-                # if c1 == 3:
-                #     m = Conv
+                if c1 == 3:
+                    m = Conv
 
             args = [c1, c2, *args[1:]]
             if m in [DownC, SPPCSPC, GhostSPPCSPC, 

@@ -3,6 +3,7 @@
 /gitignore
 **/__pycache__/
 *.pth
+!/data/compressed/*.pth
 *.txt
 *.onnx
 *.jpg

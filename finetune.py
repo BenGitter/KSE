@@ -25,8 +25,8 @@ from utils_yolo.finetune import *
 validate_before_training = False
 
 # files / dirs
-compressed_model = 'KSE_3_0.pth'
-save_dir = Path(increment_path(Path('tmp/testing/training'), exist_ok=False))
+compressed_model = './data/compressed/G3T0-tiny.pth'
+save_dir = Path(increment_path(Path('tmp/training'), exist_ok=False))
 wdir = save_dir / 'weights'
 last = wdir / 'last.pth'
 best = wdir / 'best.pth'
@@ -42,8 +42,8 @@ G = 3
 T = 0
 
 # training params
-epochs = 15
-batch_size = 16
+epochs = 20
+batch_size = 8
 num_workers = 4
 img_size = [640, 640]
 nbs = 64 # nominal batch size
@@ -68,10 +68,10 @@ if __name__ == "__main__":
 
     # load model
     nc = int(data_dict['nc'])   # number of classes
-    model = load_model(yolo_struct, nc, hyp.get('anchors'), compressed_model, G, T, device)
+    model = load_model(yolo_struct, nc, compressed_model, G, T, device)
     
     # load data
-    data_dict['train'] = data_dict['val'] # for testing (reduces load time)
+    # data_dict['train'] = data_dict['val'] # for testing (reduces load time)
     imgsz_test, dataloader, dataset, testloader, hyp, model = load_data(model, img_size, data_dict, batch_size, hyp, num_workers, device)
     nb = len(dataloader)        # number of batches
 
@@ -107,6 +107,7 @@ if __name__ == "__main__":
     l_file = open(loss_file, 'w')
     l_file.write(('{:>10s}' * 6 + '\n').format('epoch', 'gpu_mem', 'box', 'obj', 'cls', 'total'))
     with open(results_file, 'a') as r_file:
+            r_file.write(f"{G=}, {T=}, {epochs=}, {batch_size=}, {hyp['lr0']=}, {hyp['lrf']=}\n")
             r_file.write(('{:>10s}'*11 + '\n').format('epoch', 'mp', 'mr', 'mAP50', 'mAP', 'box', 'obj', 'cls', 'mAP[0]', 'fitness', 'new_lr'))
             
 
@@ -152,7 +153,7 @@ if __name__ == "__main__":
                 '%g/%g' % (epoch, epochs - 1), mem, *loss_items)
                 l_file.write(s)
 
-            if ix == 3:
+            if ix == 200:
                 break
             # end batch
 

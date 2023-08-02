@@ -28,7 +28,7 @@ device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 plots = True
 
 # KSE params
-G = 3
+G = 5
 T = 0
 ignore_first_layer = False  # NOTE: This does not do anything, only here to make sure hardcoded stuff in yolo.py::parse_model() is not forgotten
 
@@ -72,31 +72,31 @@ if __name__ == "__main__":
         print(parameter_count_table(model))
 
     # run validation (make sure accuracy is not completely lost)
-    gs = max(int(model.stride.max()), 32)
-    imgsz, imgsz_test = [check_img_size(x, gs) for x in img_size]
+    # gs = max(int(model.stride.max()), 32)
+    # imgsz, imgsz_test = [check_img_size(x, gs) for x in img_size]
     
-    test_path = data_dict['val']
-    testloader, dataset = create_dataloader(test_path, imgsz_test, batch_size * 2, gs,  # testloader
-                                       hyp=hyp, rect=True, 
-                                       workers=num_workers,
-                                       pad=0.5, prefix=colorstr('val: '))
+    # test_path = data_dict['val']
+    # testloader, dataset = create_dataloader(test_path, imgsz_test, batch_size * 2, gs,  # testloader
+    #                                    hyp=hyp, rect=True, 
+    #                                    workers=num_workers,
+    #                                    pad=0.5, prefix=colorstr('val: '))
 
     # run validation
-    results, _, _, stats = test(
-        data_dict,
-        batch_size=batch_size,
-        imgsz=imgsz_test,
-        conf_thres=0.001,
-        iou_thres=0.7,
-        model=model,
-        dataloader=testloader,
-        save_dir=save_dir,
-        save_json=True,
-        plots=False,
-        is_coco=True
-    )
+    # results, _, _, stats = test(
+    #     data_dict,
+    #     batch_size=batch_size,
+    #     imgsz=imgsz_test,
+    #     conf_thres=0.001,
+    #     iou_thres=0.7,
+    #     model=model,
+    #     dataloader=testloader,
+    #     save_dir=save_dir,
+    #     save_json=True,
+    #     plots=False,
+    #     is_coco=True
+    # )
 
-    # save model (so that yolo_train_kse.py can import it and train/finetune)
+    # save model (so that finetune.py can import it and train/finetune)
     model_tmp = copy.deepcopy(model)
     models.save(model_tmp)    
     torch.save(model_tmp.state_dict(), os.path.join(save_dir, 'model.pth'))

@@ -98,8 +98,8 @@ def create_optimizer(model, hyp):
     scheduler = LambdaLR(optimizer, lr_lambda=lf)
     return optimizer, scheduler
 
-def load_model(yolo_struct, nc, anchors, kse_weights, G, T, device):
-    model = Model(yolo_struct, nc=nc, anchors=anchors).to(device)
+def load_model(yolo_struct, nc, kse_weights, G, T, device):
+    model = Model(yolo_struct, nc=nc).to(device)
     state_dict = torch.load(kse_weights, map_location=device)
     model.load_state_dict(state_dict, strict=False)     # for Conv2d_KSE: loads 'mask' from state_dict, ignores rest
     models.create_arch(model, G, T)                     # creates 'full_weight', 'clusters_{i}', 'indexs_{i}'

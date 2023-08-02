@@ -30,5 +30,5 @@ loss_ota: 0 # use ComputeLossOTA, use 0 for faster training
 
 lr0: 0.001  # initial learning rate (SGD=1E-2, Adam=1E-3)
 lrf: 0.1  # final OneCycleLR learning rate (lr0 * lrf)
-one_cyle_epochs: 14
+one_cyle_epochs: 19
 start_epoch: 0

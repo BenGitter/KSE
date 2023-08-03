@@ -30,7 +30,6 @@ T = 1
 
 # files / dirs
 compressed_model = './data/compressed/G{}T{}-tiny.pth'.format(G, T)
-compressed_model = './data/compressed/G3T0-tiny.pth'
 save_dir = Path(increment_path(Path('tmp/training'), exist_ok=False))
 wdir = save_dir / 'weights'
 last = wdir / 'last.pth'

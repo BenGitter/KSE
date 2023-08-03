@@ -24,7 +24,12 @@ from utils_yolo.finetune import *
 
 validate_before_training = False
 
+# KSE params
+G = 3
+T = 1
+
 # files / dirs
+compressed_model = './data/compressed/G{}T{}-tiny.pth'.format(G, T)
 compressed_model = './data/compressed/G3T0-tiny.pth'
 save_dir = Path(increment_path(Path('tmp/training'), exist_ok=False))
 wdir = save_dir / 'weights'
@@ -33,13 +38,9 @@ best = wdir / 'best.pth'
 results_file = save_dir / 'results.txt'
 loss_file = save_dir / 'losses.txt'
 
-data = './data/coco.yaml'
+data = './data/coco.vast.yaml'
 hyp = './data/hyp.scratch.tiny.yaml'
 yolo_struct = './data/yolov7_tiny_struct.yaml'
-
-# KSE params
-G = 3
-T = 0
 
 # training params
 epochs = 20
@@ -153,8 +154,8 @@ if __name__ == "__main__":
                 '%g/%g' % (epoch, epochs - 1), mem, *loss_items)
                 l_file.write(s)
 
-            if ix == 200:
-                break
+            # if ix == 200:
+            #     break
             # end batch
 
         # update learning rate

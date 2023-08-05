@@ -381,7 +381,7 @@ class Conv2d_KSE(nn.Module):
                 cluster = nn.Parameter(torch.zeros(
                     self.cluster_num[g], self.group_size[g], self.kernel_size, self.kernel_size), requires_grad=True)
                 index = nn.Parameter(torch.ByteTensor(math.ceil(
-                    math.ceil(math.log(self.cluster_num[g], 2)) * self.output_channels * self.group_size[g] / 8)),
+                    max(math.ceil(math.log(self.cluster_num[g], 2)), 1) * self.output_channels * self.group_size[g] / 8)),
                     requires_grad=False)
                 self.__setattr__("clusters_" + str(g), cluster)
                 self.__setattr__("indexs_" + str(g), index)
@@ -436,7 +436,7 @@ class Conv2d_KSE(nn.Module):
             index = self.__getattr__("indexs_"+str(g))
 
             Q = cluster.shape[0]
-            bits = math.ceil(math.log(Q, 2))
+            bits = max(math.ceil(math.log(Q, 2)), 1)
             indexs = index.data.cpu().numpy()
             new_b = ""
             f = '{0:08b}'

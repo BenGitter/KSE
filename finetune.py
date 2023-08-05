@@ -25,7 +25,7 @@ from utils_yolo.finetune import *
 validate_before_training = False
 
 # KSE params
-G = 3
+G = 6
 T = 1
 
 # files / dirs
@@ -43,7 +43,7 @@ yolo_struct = './data/yolov7_tiny_struct.yaml'
 
 # training params
 epochs = 20
-batch_size = 8
+batch_size = 32
 num_workers = 4
 img_size = [640, 640]
 nbs = 64 # nominal batch size
@@ -181,6 +181,8 @@ if __name__ == "__main__":
         if fi > best_fitness:
             best_fitness = fi
             print('Found higher fitness:', best_fitness)
+        else:
+            print('Fitness not higher:', fi)
 
         # write results to file
         with open(results_file, 'a') as f:

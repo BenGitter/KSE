@@ -115,7 +115,7 @@ def load_data(model, img_size, data_dict, batch_size, hyp, num_workers, device, 
     dataloader, dataset = create_dataloader(data_dict['train'], imgsz, batch_size, gs, hyp=hyp,
                                             augment=augment,  workers=num_workers, prefix=colorstr('train: '))
     testloader = create_dataloader(data_dict['val'], imgsz_test, batch_size, gs, 
-                                        hyp=hyp, rect=True, 
+                                        hyp=hyp, rect=False, 
                                         workers=num_workers,
                                         pad=0.5, prefix=colorstr('val: '))[0]
     
